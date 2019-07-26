@@ -1,33 +1,33 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
-import java.math.BigDecimal;
-
 public class Product {
-    private String name;
-    private BigDecimal price;
-    private Category category;
+    private final String name;
+    private final Category category;
+    private final Money netto;
+
+    public static Product of(String name, Category category, Money netto) {
+        return new Product(name, category, netto);
+    }
+
+    private Product(String name, Category category, Money netto) {
+        this.name = name;
+        this.category = category;
+        this.netto = netto;
+    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Money netto() {
+        return netto;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public Money tax() {
+        return netto.tax(category.getTaxPercentage());
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+    public Money brutto() {
+        return netto.plusTax(category.getTaxPercentage());
     }
 }

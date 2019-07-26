@@ -1,30 +1,40 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class Order {
-    private BigDecimal total;
-    private String currency;
     private List<OrderItem> items;
-    private BigDecimal tax;
     private OrderStatus status;
     private int id;
 
-    public BigDecimal getTotal() {
-        return total;
+    public static Order createEmpty() {
+        Order order = new Order();
+        order.setStatus(OrderStatus.CREATED);
+        order.setItems(new ArrayList<>());
+        return order;
     }
 
-    public void setTotal(BigDecimal total) {
-        this.total = total;
+    public Money getTotal() {
+        return sumUp(item -> item.getTaxedAmount());
+    }
+
+    public Money getTax() {
+        return sumUp(item -> item.getTax());
+    }
+
+    private Money sumUp(Function<OrderItem, Money> which) {
+        return items.stream()
+            .map(which)
+            .reduce(Money.zero(), (cur, next) -> cur.add(next));
     }
 
     public String getCurrency() {
-        return currency;
+        return getTotal().getCurrency();
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setCurrency() {
     }
 
     public List<OrderItem> getItems() {
@@ -33,14 +43,6 @@ public class Order {
 
     public void setItems(List<OrderItem> items) {
         this.items = items;
-    }
-
-    public BigDecimal getTax() {
-        return tax;
-    }
-
-    public void setTax(BigDecimal tax) {
-        this.tax = tax;
     }
 
     public OrderStatus getStatus() {
@@ -58,4 +60,9 @@ public class Order {
     public void setId(int id) {
         this.id = id;
     }
+
+    public void addItemToOrder(OrderItem orderItem) {
+        items.add(orderItem);
+    }
+
 }
