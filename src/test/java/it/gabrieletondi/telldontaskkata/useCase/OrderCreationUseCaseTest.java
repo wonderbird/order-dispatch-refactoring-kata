@@ -11,7 +11,6 @@ import it.gabrieletondi.telldontaskkata.repository.ProductCatalog;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -31,18 +30,10 @@ public class OrderCreationUseCaseTest {
 
     @Test
     public void sellMultipleItems() {
-        SellItemRequest saladRequest = new SellItemRequest();
-        saladRequest.setProductName("salad");
-        saladRequest.setQuantity(2);
+        SellItemRequest saladRequest = SellItemRequest.of("salad", 2);
+        SellItemRequest tomatoRequest = SellItemRequest.of("tomato", 3);
 
-        SellItemRequest tomatoRequest = new SellItemRequest();
-        tomatoRequest.setProductName("tomato");
-        tomatoRequest.setQuantity(3);
-
-        final SellItemsRequest request = new SellItemsRequest();
-        request.setRequests(new ArrayList<>());
-        request.getRequests().add(saladRequest);
-        request.getRequests().add(tomatoRequest);
+        final SellItemsRequest request = SellItemsRequest.of(saladRequest, tomatoRequest);
 
         useCase.run(request);
 
@@ -65,12 +56,9 @@ public class OrderCreationUseCaseTest {
     }
 
     @Test(expected = UnknownProductException.class)
-    public void unknownProduct() throws Exception {
-        SellItemsRequest request = new SellItemsRequest();
-        request.setRequests(new ArrayList<>());
-        SellItemRequest unknownProductRequest = new SellItemRequest();
-        unknownProductRequest.setProductName("unknown product");
-        request.getRequests().add(unknownProductRequest);
+    public void unknownProduct() {
+        SellItemRequest unknownProductRequest = SellItemRequest.of("unknown product", 0);
+        SellItemsRequest request = SellItemsRequest.of(unknownProductRequest);
 
         useCase.run(request);
     }

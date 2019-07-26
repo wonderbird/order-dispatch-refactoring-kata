@@ -14,16 +14,11 @@ public class OrderApprovalUseCaseTest {
     private final OrderApprovalUseCase useCase = new OrderApprovalUseCase(orderRepository);
 
     @Test
-    public void approvedExistingOrder() throws Exception {
-        Order initialOrder = new Order();
-        initialOrder.setStatus(OrderStatus.CREATED);
-        initialOrder.setId(1);
+    public void approvedExistingOrder() {
+        Order initialOrder = Order.of(1, OrderStatus.CREATED);
         orderRepository.addOrder(initialOrder);
 
-        OrderApprovalRequest request = new OrderApprovalRequest();
-        request.setOrderId(1);
-        request.setApproved(true);
-
+        OrderApprovalRequest request = OrderApprovalRequest.of(1, true);
         useCase.run(request);
 
         final Order savedOrder = orderRepository.getSavedOrder();
@@ -31,16 +26,11 @@ public class OrderApprovalUseCaseTest {
     }
 
     @Test
-    public void rejectedExistingOrder() throws Exception {
-        Order initialOrder = new Order();
-        initialOrder.setStatus(OrderStatus.CREATED);
-        initialOrder.setId(1);
+    public void rejectedExistingOrder() {
+        Order initialOrder = Order.of(1, OrderStatus.CREATED);
         orderRepository.addOrder(initialOrder);
 
-        OrderApprovalRequest request = new OrderApprovalRequest();
-        request.setOrderId(1);
-        request.setApproved(false);
-
+        OrderApprovalRequest request = OrderApprovalRequest.of(1, false);
         useCase.run(request);
 
         final Order savedOrder = orderRepository.getSavedOrder();
@@ -48,32 +38,22 @@ public class OrderApprovalUseCaseTest {
     }
 
     @Test(expected = RejectedOrderCannotBeApprovedException.class)
-    public void cannotApproveRejectedOrder() throws Exception {
-        Order initialOrder = new Order();
-        initialOrder.setStatus(OrderStatus.REJECTED);
-        initialOrder.setId(1);
+    public void cannotApproveRejectedOrder() {
+        Order initialOrder = Order.of(1, OrderStatus.REJECTED);
         orderRepository.addOrder(initialOrder);
 
-        OrderApprovalRequest request = new OrderApprovalRequest();
-        request.setOrderId(1);
-        request.setApproved(true);
-
+        OrderApprovalRequest request = OrderApprovalRequest.of(1, true);
         useCase.run(request);
 
         assertThat(orderRepository.getSavedOrder(), is(nullValue()));
     }
 
     @Test(expected = ApprovedOrderCannotBeRejectedException.class)
-    public void cannotRejectApprovedOrder() throws Exception {
-        Order initialOrder = new Order();
-        initialOrder.setStatus(OrderStatus.APPROVED);
-        initialOrder.setId(1);
+    public void cannotRejectApprovedOrder() {
+        Order initialOrder = Order.of(1, OrderStatus.APPROVED);
         orderRepository.addOrder(initialOrder);
 
-        OrderApprovalRequest request = new OrderApprovalRequest();
-        request.setOrderId(1);
-        request.setApproved(false);
-
+        OrderApprovalRequest request = OrderApprovalRequest.of(1, false);
         useCase.run(request);
 
         assertThat(orderRepository.getSavedOrder(), is(nullValue()));
@@ -81,15 +61,10 @@ public class OrderApprovalUseCaseTest {
 
     @Test(expected = ShippedOrdersCannotBeChangedException.class)
     public void shippedOrdersCannotBeApproved() throws Exception {
-        Order initialOrder = new Order();
-        initialOrder.setStatus(OrderStatus.SHIPPED);
-        initialOrder.setId(1);
+        Order initialOrder = Order.of(1, OrderStatus.SHIPPED);
         orderRepository.addOrder(initialOrder);
 
-        OrderApprovalRequest request = new OrderApprovalRequest();
-        request.setOrderId(1);
-        request.setApproved(true);
-
+        OrderApprovalRequest request = OrderApprovalRequest.of(1, true);
         useCase.run(request);
 
         assertThat(orderRepository.getSavedOrder(), is(nullValue()));
@@ -97,15 +72,10 @@ public class OrderApprovalUseCaseTest {
 
     @Test(expected = ShippedOrdersCannotBeChangedException.class)
     public void shippedOrdersCannotBeRejected() throws Exception {
-        Order initialOrder = new Order();
-        initialOrder.setStatus(OrderStatus.SHIPPED);
-        initialOrder.setId(1);
+        Order initialOrder = Order.of(1, OrderStatus.SHIPPED);
         orderRepository.addOrder(initialOrder);
 
-        OrderApprovalRequest request = new OrderApprovalRequest();
-        request.setOrderId(1);
-        request.setApproved(false);
-
+        OrderApprovalRequest request = OrderApprovalRequest.of(1, false);
         useCase.run(request);
 
         assertThat(orderRepository.getSavedOrder(), is(nullValue()));
