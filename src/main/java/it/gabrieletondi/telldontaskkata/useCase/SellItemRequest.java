@@ -18,7 +18,7 @@ public class SellItemRequest {
         this.productName = productName;
     }
 
-    public boolean addTo(List<OrderItem> items, ProductCatalog productCatalog) {
-        return items.add(OrderItem.createOrderItem(productCatalog.getByName(productName), quantity));
+    public void addTo(List<OrderItem> items, ProductCatalog productCatalog) {
+        items.add(OrderItem.createOrderItem(productCatalog.getByName(productName), quantity));
     }
 }

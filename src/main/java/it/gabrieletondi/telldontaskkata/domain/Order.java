@@ -2,10 +2,7 @@ package it.gabrieletondi.telldontaskkata.domain;
 
 import it.gabrieletondi.telldontaskkata.repository.ProductCatalog;
 import it.gabrieletondi.telldontaskkata.service.ShipmentService;
-import it.gabrieletondi.telldontaskkata.useCase.ApprovedOrderCannotBeRejectedException;
-import it.gabrieletondi.telldontaskkata.useCase.RejectedOrderCannotBeApprovedException;
 import it.gabrieletondi.telldontaskkata.useCase.SellItemRequest;
-import it.gabrieletondi.telldontaskkata.useCase.ShippedOrdersCannotBeChangedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +25,6 @@ public class Order {
         this.items = items;
         this.status = status;
         this.id = id;
-    }
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
     }
 
     public Money getTotal() {
@@ -77,24 +70,13 @@ public class Order {
     }
 
     public void approve() {
-        assertNotShipped();
-        if (status.equals(OrderStatus.REJECTED)) {
-            throw new RejectedOrderCannotBeApprovedException();
-        }
-        setStatus(OrderStatus.APPROVED);
+        status.assertApprovable();
+        status = OrderStatus.APPROVED;
     }
 
     public void reject() {
-        assertNotShipped();
-        if (status.equals(OrderStatus.APPROVED)) {
-            throw new ApprovedOrderCannotBeRejectedException();
-        }
-        setStatus(OrderStatus.REJECTED);
+        status.assertRejectable();
+        status = OrderStatus.REJECTED;
     }
 
-    private void assertNotShipped() {
-        if (status.equals(OrderStatus.SHIPPED)) {
-            throw new ShippedOrdersCannotBeChangedException();
-        }
-    }
 }

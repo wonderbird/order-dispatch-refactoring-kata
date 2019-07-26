@@ -1,30 +1,24 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
 public class OrderItem {
-    private Product product;
-    private int quantity;
+    private final Product product;
+    private final int quantity;
 
     public static OrderItem createOrderItem(Product product, int quantity) {
-        final OrderItem orderItem = new OrderItem();
-        orderItem.setProduct(product);
-        orderItem.setQuantity(quantity);
-        return orderItem;
+        return new OrderItem(product, quantity);
+    }
+
+    private OrderItem(Product product, int quantity) {
+        this.product = product;
+        this.quantity = quantity;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
     public int getQuantity() {
         return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public Money getTaxedAmount() {
