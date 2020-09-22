@@ -1,13 +1,8 @@
 package it.gabrieletondi.telldontaskkata.useCase;
 
+import lombok.Data;
+
+@Data
 public class OrderShipmentRequest {
     private int orderId;
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
 }
