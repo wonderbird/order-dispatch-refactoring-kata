@@ -75,11 +75,11 @@ public class Order {
             throw new OrderAlreadyShipped();
         }
 
-        if (request.isApproved() && status.equals(OrderStatus.REJECTED)) {
+        if (request.isApproved() && isRejected()) {
             throw new CannotApproveRejectedOrder();
         }
 
-        if (!request.isApproved() && this.isApproved()) {
+        if (!request.isApproved() && isApproved()) {
             throw new CannotRejectApprovedOrder();
         }
 
@@ -87,7 +87,7 @@ public class Order {
     }
 
     public void ship(ShipmentService shipmentService) {
-        if (status.equals(CREATED) || this.isRejected()) {
+        if (isCreated() || this.isRejected()) {
             throw new OrderNotShippable();
         }
 
@@ -105,6 +105,10 @@ public class Order {
     }
 
     public boolean isRejected() {
-        return status.equals(REJECTED);
+        return status.equals(OrderStatus.REJECTED);
+    }
+
+    public boolean isCreated() {
+        return status.equals(OrderStatus.CREATED);
     }
 }
