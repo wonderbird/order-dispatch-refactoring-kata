@@ -34,12 +34,12 @@ public class Product {
         return price.add(tax());
     }
 
-    public BigDecimal taxedPriceTimes(int quantity) {
-        return taxedPrice().multiply(quantity).value();
+    public Money taxedPriceTimes(int quantity) {
+        return taxedPrice().multiply(quantity);
     }
 
-    public BigDecimal taxTimes(int quantity) {
-        return tax().multiply(quantity).value();
+    public Money taxTimes(int quantity) {
+        return tax().multiply(quantity);
     }
 
     public static class Money {

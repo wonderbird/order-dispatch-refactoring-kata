@@ -22,11 +22,11 @@ public class OrderItem {
     }
 
     public BigDecimal getTaxedAmount() {
-        return product.taxedPriceTimes(quantity);
+        return product.taxedPriceTimes(quantity).value();
     }
 
     public BigDecimal getTax() {
-        return product.taxTimes(quantity);
+        return product.taxTimes(quantity).value();
     }
 
 }
