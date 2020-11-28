@@ -12,6 +12,8 @@ import java.util.List;
 
 import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.CREATED;
 import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.SHIPPED;
+import static java.math.BigDecimal.valueOf;
+import static java.math.RoundingMode.HALF_UP;
 
 public class Order {
     private BigDecimal total = new BigDecimal("0.00");
@@ -110,5 +112,23 @@ public class Order {
 
     public void addToTotal(BigDecimal taxedAmount) {
         this.total = total.add(taxedAmount);
+    }
+
+    public void addProduct(Product product, int quantity) {
+        final BigDecimal unitaryTax = product.getPrice()
+            .multiply(product.getCategory().getTaxPercentage().divide(valueOf(100), 2, HALF_UP))
+            .setScale(2, HALF_UP);
+        final BigDecimal unitaryTaxedAmount = product.getPrice().add(unitaryTax).setScale(2, HALF_UP);
+        final BigDecimal taxedAmount = unitaryTaxedAmount.multiply(BigDecimal.valueOf(quantity)).setScale(2, HALF_UP);
+        final BigDecimal taxAmount = unitaryTax.multiply(BigDecimal.valueOf(quantity));
+
+        final OrderItem orderItem = new OrderItem();
+        orderItem.setProduct(product);
+        orderItem.setQuantity(quantity);
+        orderItem.setTax(taxAmount);
+        orderItem.setTaxedAmount(taxedAmount);
+        getItems().add(orderItem);
+        addToTotal(taxedAmount);
+        addToTax(taxAmount);
     }
 }
