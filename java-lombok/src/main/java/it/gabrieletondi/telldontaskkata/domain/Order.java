@@ -115,9 +115,7 @@ public class Order {
     }
 
     public void addProduct(Product product, int quantity) {
-        final BigDecimal unitaryTax = product.getPrice()
-            .multiply(product.getCategory().getTaxPercentage().divide(valueOf(100), 2, HALF_UP))
-            .setScale(2, HALF_UP);
+        final BigDecimal unitaryTax = product.tax();
         final BigDecimal unitaryTaxedAmount = product.getPrice().add(unitaryTax).setScale(2, HALF_UP);
         final BigDecimal taxedAmount = unitaryTaxedAmount.multiply(BigDecimal.valueOf(quantity)).setScale(2, HALF_UP);
         final BigDecimal taxAmount = unitaryTax.multiply(BigDecimal.valueOf(quantity));
@@ -131,4 +129,5 @@ public class Order {
         addToTotal(taxedAmount);
         addToTax(taxAmount);
     }
+
 }
