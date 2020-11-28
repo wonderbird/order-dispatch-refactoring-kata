@@ -4,7 +4,6 @@ import it.gabrieletondi.telldontaskkata.service.ShipmentService;
 import it.gabrieletondi.telldontaskkata.useCase.CannotApproveRejectedOrder;
 import it.gabrieletondi.telldontaskkata.useCase.CannotRejectApprovedOrder;
 import it.gabrieletondi.telldontaskkata.useCase.OrderAlreadyShipped;
-import it.gabrieletondi.telldontaskkata.useCase.OrderApprovalRequest;
 import it.gabrieletondi.telldontaskkata.useCase.OrderNotShippable;
 
 import java.math.BigDecimal;
@@ -33,32 +32,16 @@ public class Order {
         return total;
     }
 
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-
     public String getCurrency() {
         return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public List<OrderItem> getItems() {
         return items;
     }
 
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
-    }
-
     public BigDecimal getTax() {
         return tax;
-    }
-
-    public void setTax(BigDecimal tax) {
-        this.tax = tax;
     }
 
     public int getId() {
@@ -119,5 +102,13 @@ public class Order {
         if (status.equals(OrderStatus.SHIPPED)) {
             throw new OrderAlreadyShipped();
         }
+    }
+
+    public void addToTax(BigDecimal taxAmount) {
+        this.tax = tax.add(taxAmount);
+    }
+
+    public void addToTotal(BigDecimal taxedAmount) {
+        this.total = total.add(taxedAmount);
     }
 }
