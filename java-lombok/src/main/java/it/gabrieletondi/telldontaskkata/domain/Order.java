@@ -20,16 +20,16 @@ public class Order {
     private OrderStatus status = CREATED;
     private int id;
 
-    public static Order create(int id, OrderStatus approved) {
+    public static Order create(int id, OrderStatus status) {
         Order initialOrder = new Order();
         initialOrder.id = id;
-        initialOrder.status = approved;
+        initialOrder.status = status;
         return initialOrder;
     }
 
     public BigDecimal getTotal() {
         return items.stream()
-            .map(item -> item.getTaxedAmount())
+            .map(OrderItem::getTaxedAmount)
             .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
@@ -43,7 +43,7 @@ public class Order {
 
     public BigDecimal getTax() {
         return items.stream()
-            .map(item -> item.getTax())
+            .map(OrderItem::getTax)
             .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
