@@ -67,10 +67,6 @@ public class Order {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void approveOrReject(OrderApprovalRequest request) {
         if (status.equals(OrderStatus.SHIPPED)) {
             throw new OrderAlreadyShipped();
