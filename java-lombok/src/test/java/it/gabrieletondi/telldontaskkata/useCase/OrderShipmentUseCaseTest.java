@@ -18,9 +18,7 @@ public class OrderShipmentUseCaseTest {
 
     @Test
     public void shipsApprovedOrder() {
-        Order initialOrder = new Order();
-        initialOrder.setId(1);
-        initialOrder.setStatus(OrderStatus.APPROVED);
+        Order initialOrder = createOrder(OrderStatus.APPROVED);
         orderRepository.addOrder(initialOrder);
 
         OrderShipmentRequest request = new OrderShipmentRequest();
@@ -33,9 +31,7 @@ public class OrderShipmentUseCaseTest {
 
     @Test(expected = OrderNotShippable.class)
     public void createdOrdersCannotBeShipped() {
-        Order initialOrder = new Order();
-        initialOrder.setId(1);
-        initialOrder.setStatus(OrderStatus.CREATED);
+        Order initialOrder = createOrder(OrderStatus.CREATED);
         orderRepository.addOrder(initialOrder);
 
         OrderShipmentRequest request = new OrderShipmentRequest();
@@ -48,9 +44,7 @@ public class OrderShipmentUseCaseTest {
 
     @Test(expected = OrderNotShippable.class)
     public void rejectedOrdersCannotBeShipped() {
-        Order initialOrder = new Order();
-        initialOrder.setId(1);
-        initialOrder.setStatus(OrderStatus.REJECTED);
+        Order initialOrder = createOrder(OrderStatus.REJECTED);
         orderRepository.addOrder(initialOrder);
 
         OrderShipmentRequest request = new OrderShipmentRequest();
@@ -63,9 +57,7 @@ public class OrderShipmentUseCaseTest {
 
     @Test(expected = OrderAlreadyShipped.class)
     public void shippedOrdersCannotBeShippedAgain() {
-        Order initialOrder = new Order();
-        initialOrder.setId(1);
-        initialOrder.setStatus(OrderStatus.SHIPPED);
+        Order initialOrder = createOrder(OrderStatus.SHIPPED);
         orderRepository.addOrder(initialOrder);
 
         OrderShipmentRequest request = new OrderShipmentRequest();
@@ -74,5 +66,9 @@ public class OrderShipmentUseCaseTest {
 
         assertThat(orderRepository.getSavedOrder(), is(nullValue()));
         assertThat(shipmentService.getShippedOrder(), is(nullValue()));
+    }
+
+    private Order createOrder(OrderStatus status) {
+        return Order.create(1, status);
     }
 }

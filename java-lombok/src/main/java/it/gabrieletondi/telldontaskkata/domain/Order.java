@@ -20,6 +20,13 @@ public class Order {
     private OrderStatus status;
     private int id;
 
+    public static Order create(int id, OrderStatus approved) {
+        Order initialOrder = new Order();
+        initialOrder.id = id;
+        initialOrder.status = approved;
+        return initialOrder;
+    }
+
     public BigDecimal getTotal() {
         return total;
     }
