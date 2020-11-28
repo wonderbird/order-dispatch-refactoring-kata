@@ -1,11 +1,13 @@
 package it.gabrieletondi.telldontaskkata.useCase;
 
+import it.gabrieletondi.telldontaskkata.Fixtures;
 import it.gabrieletondi.telldontaskkata.domain.Order;
 import it.gabrieletondi.telldontaskkata.domain.OrderStatus;
 import it.gabrieletondi.telldontaskkata.doubles.TestOrderRepository;
 import it.gabrieletondi.telldontaskkata.doubles.TestShipmentService;
 import org.junit.Test;
 
+import static it.gabrieletondi.telldontaskkata.Fixtures.createOrder;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -68,7 +70,4 @@ public class OrderShipmentUseCaseTest {
         assertThat(shipmentService.getShippedOrder(), is(nullValue()));
     }
 
-    private Order createOrder(OrderStatus status) {
-        return Order.create(1, status);
-    }
 }
