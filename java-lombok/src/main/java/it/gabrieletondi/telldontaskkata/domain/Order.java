@@ -71,7 +71,7 @@ public class Order {
     }
 
     public void ship(ShipmentService shipmentService) {
-        if (isCreated() || this.isRejected()) {
+        if (isCreated() || isRejected()) {
             throw new OrderNotShippable();
         }
 
