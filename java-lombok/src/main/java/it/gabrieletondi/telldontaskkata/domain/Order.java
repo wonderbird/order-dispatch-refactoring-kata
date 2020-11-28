@@ -10,6 +10,7 @@ import it.gabrieletondi.telldontaskkata.useCase.OrderNotShippable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.APPROVED;
 import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.CREATED;
 import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.REJECTED;
 import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.SHIPPED;
@@ -79,7 +80,7 @@ public class Order {
             throw new CannotApproveRejectedOrder();
         }
 
-        if (!request.isApproved() && status.equals(OrderStatus.APPROVED)) {
+        if (!request.isApproved() && this.isApproved()) {
             throw new CannotRejectApprovedOrder();
         }
 
@@ -98,5 +99,9 @@ public class Order {
         shipmentService.ship(this);
 
         this.status = OrderStatus.SHIPPED;
+    }
+
+    public boolean isApproved() {
+        return status.equals(OrderStatus.APPROVED);
     }
 }
