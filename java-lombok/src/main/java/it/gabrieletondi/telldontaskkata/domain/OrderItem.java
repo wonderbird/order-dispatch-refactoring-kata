@@ -30,10 +30,13 @@ public class OrderItem {
         final OrderItem orderItem = new OrderItem();
         orderItem.product = product;
         orderItem.quantity = quantity;
-        orderItem.tax = product.tax().multiply(BigDecimal.valueOf(quantity)).setScale(2, HALF_UP);
-        orderItem.taxedAmount = product.taxedPrice()
-            .multiply(BigDecimal.valueOf(quantity))
-            .setScale(2, HALF_UP);
+        orderItem.tax = multiply(product.tax(), quantity);
+        orderItem.taxedAmount = multiply(product.taxedPrice(), quantity);
         return orderItem;
+    }
+
+    public static BigDecimal multiply(BigDecimal value, int quantity) {
+        return value.multiply(BigDecimal.valueOf(quantity))
+            .setScale(2, HALF_UP);
     }
 }
