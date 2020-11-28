@@ -18,7 +18,6 @@ import static java.math.RoundingMode.HALF_UP;
 public class Order {
     private String currency = "EUR";
     private List<OrderItem> items = new ArrayList<>();
-    private BigDecimal tax = new BigDecimal("0.00");
     private OrderStatus status = CREATED;
     private int id;
 
@@ -44,7 +43,9 @@ public class Order {
     }
 
     public BigDecimal getTax() {
-        return tax;
+        return items.stream()
+            .map(item -> item.getTax())
+            .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
     public int getId() {
@@ -107,10 +108,6 @@ public class Order {
         }
     }
 
-    public void addToTax(BigDecimal taxAmount) {
-        this.tax = tax.add(taxAmount);
-    }
-
     public void addProduct(Product product, int quantity) {
         final BigDecimal unitaryTaxedAmount = product.taxedPrice();
         final BigDecimal taxedAmount = unitaryTaxedAmount.multiply(BigDecimal.valueOf(quantity)).setScale(2, HALF_UP);
@@ -122,7 +119,6 @@ public class Order {
         orderItem.setTax(taxAmount);
         orderItem.setTaxedAmount(taxedAmount);
         getItems().add(orderItem);
-        addToTax(taxAmount);
     }
 
 }
