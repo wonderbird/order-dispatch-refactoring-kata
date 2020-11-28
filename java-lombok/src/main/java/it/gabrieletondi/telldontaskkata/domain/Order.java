@@ -12,7 +12,6 @@ import java.util.List;
 
 import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.CREATED;
 import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.SHIPPED;
-import static java.math.BigDecimal.valueOf;
 
 public class Order {
     private String currency = "EUR";

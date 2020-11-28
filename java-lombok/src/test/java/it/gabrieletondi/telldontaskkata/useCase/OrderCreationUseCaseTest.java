@@ -1,6 +1,7 @@
 package it.gabrieletondi.telldontaskkata.useCase;
 
 import it.gabrieletondi.telldontaskkata.domain.Category;
+import it.gabrieletondi.telldontaskkata.domain.Money;
 import it.gabrieletondi.telldontaskkata.domain.Order;
 import it.gabrieletondi.telldontaskkata.domain.Product;
 import it.gabrieletondi.telldontaskkata.doubles.InMemoryProductCatalog;
@@ -25,8 +26,8 @@ public class OrderCreationUseCaseTest {
     }};
     private final ProductCatalog productCatalog = new InMemoryProductCatalog(
         asList(
-            Product.create("salad", new BigDecimal("3.56"), food),
-            Product.create("tomato", new BigDecimal("4.65"), food)
+            Product.create("salad", new Money(new BigDecimal("3.56")), food),
+            Product.create("tomato", new Money(new BigDecimal("4.65")), food)
         )
     );
 
@@ -56,12 +57,12 @@ public class OrderCreationUseCaseTest {
         assertThat(insertedOrder.getCurrency(), is("EUR"));
         assertThat(insertedOrder.getItems(), hasSize(2));
         assertThat(insertedOrder.getItems().get(0).getProduct().getName(), is("salad"));
-        assertThat(insertedOrder.getItems().get(0).getProduct().getPrice(), is(new BigDecimal("3.56")));
+        assertThat(insertedOrder.getItems().get(0).getProduct().price().value(), is(new BigDecimal("3.56")));
         assertThat(insertedOrder.getItems().get(0).getQuantity(), is(2));
         assertThat(insertedOrder.getItems().get(0).taxedAmount().value(), is(new BigDecimal("7.84")));
         assertThat(insertedOrder.getItems().get(0).tax().value(), is(new BigDecimal("0.72")));
         assertThat(insertedOrder.getItems().get(1).getProduct().getName(), is("tomato"));
-        assertThat(insertedOrder.getItems().get(1).getProduct().getPrice(), is(new BigDecimal("4.65")));
+        assertThat(insertedOrder.getItems().get(1).getProduct().price().value(), is(new BigDecimal("4.65")));
         assertThat(insertedOrder.getItems().get(1).getQuantity(), is(3));
         assertThat(insertedOrder.getItems().get(1).taxedAmount().value(), is(new BigDecimal("15.36")));
         assertThat(insertedOrder.getItems().get(1).tax().value(), is(new BigDecimal("1.41")));

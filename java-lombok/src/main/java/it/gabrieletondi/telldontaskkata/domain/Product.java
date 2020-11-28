@@ -1,18 +1,14 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
-import java.math.BigDecimal;
-
-import static java.math.BigDecimal.valueOf;
-
 public class Product {
     private String name;
     private Money price;
     private Category category;
 
-    public static Product create(final String salad, final BigDecimal price, final Category food) {
+    public static Product create(final String salad, final Money price, final Category food) {
         Product product = new Product();
         product.name = salad;
-        product.price = new Money(price);
+        product.price = price;
         product.category = food;
         return product;
     }
@@ -21,8 +17,8 @@ public class Product {
         return name;
     }
 
-    public BigDecimal getPrice() {
-        return price.value();
+    public Money price() {
+        return price;
     }
 
     public Money tax() {
