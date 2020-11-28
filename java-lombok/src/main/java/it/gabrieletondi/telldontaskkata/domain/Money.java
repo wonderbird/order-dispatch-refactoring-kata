@@ -8,6 +8,10 @@ import static java.math.RoundingMode.HALF_UP;
 public class Money {
     private final BigDecimal value;
 
+    public Money() {
+        this.value = new BigDecimal("0");
+    }
+
     public Money(BigDecimal value) {
         this.value = value;
     }

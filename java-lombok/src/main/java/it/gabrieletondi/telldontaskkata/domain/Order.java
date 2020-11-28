@@ -26,10 +26,16 @@ public class Order {
         return initialOrder;
     }
 
-    public BigDecimal getTotal() {
+    public Money total() {
         return items.stream()
-            .map(orderItem -> orderItem.taxedAmount().value())
-            .reduce(new BigDecimal(0), BigDecimal::add);
+            .map(OrderItem::taxedAmount)
+            .reduce(new Money(), Money::add);
+    }
+
+    public Money tax() {
+        return items.stream()
+            .map(OrderItem::tax)
+            .reduce(new Money(), Money::add);
     }
 
     public String getCurrency() {
@@ -38,12 +44,6 @@ public class Order {
 
     public List<OrderItem> getItems() {
         return items;
-    }
-
-    public BigDecimal getTax() {
-        return items.stream()
-            .map(orderItem -> orderItem.tax().value())
-            .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
     public int getId() {

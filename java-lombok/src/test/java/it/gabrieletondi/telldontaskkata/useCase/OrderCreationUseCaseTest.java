@@ -52,8 +52,10 @@ public class OrderCreationUseCaseTest {
 
         final Order insertedOrder = orderRepository.getSavedOrder();
         assertTrue(insertedOrder.isCreated());
-        assertThat(insertedOrder.getTotal(), is(new BigDecimal("23.20")));
-        assertThat(insertedOrder.getTax(), is(new BigDecimal("2.13")));
+        assertThat(insertedOrder.total()
+            .value(), is(new BigDecimal("23.20")));
+        assertThat(insertedOrder.tax()
+            .value(), is(new BigDecimal("2.13")));
         assertThat(insertedOrder.getCurrency(), is("EUR"));
         assertThat(insertedOrder.getItems(), hasSize(2));
         assertThat(insertedOrder.getItems().get(0).getProduct().getName(), is("salad"));
