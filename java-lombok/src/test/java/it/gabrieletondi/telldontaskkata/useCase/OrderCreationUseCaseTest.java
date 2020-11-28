@@ -2,7 +2,6 @@ package it.gabrieletondi.telldontaskkata.useCase;
 
 import it.gabrieletondi.telldontaskkata.domain.Category;
 import it.gabrieletondi.telldontaskkata.domain.Order;
-import it.gabrieletondi.telldontaskkata.domain.OrderStatus;
 import it.gabrieletondi.telldontaskkata.domain.Product;
 import it.gabrieletondi.telldontaskkata.doubles.InMemoryProductCatalog;
 import it.gabrieletondi.telldontaskkata.doubles.TestOrderRepository;
@@ -26,18 +25,11 @@ public class OrderCreationUseCaseTest {
     }};
     private final ProductCatalog productCatalog = new InMemoryProductCatalog(
         asList(
-            new Product() {{
-                setName("salad");
-                setPrice(new BigDecimal("3.56"));
-                setCategory(food);
-            }},
-            new Product() {{
-                setName("tomato");
-                setPrice(new BigDecimal("4.65"));
-                setCategory(food);
-            }}
+            Product.create("salad", new BigDecimal("3.56"), food),
+            Product.create("tomato", new BigDecimal("4.65"), food)
         )
     );
+
     private final OrderCreationUseCase useCase = new OrderCreationUseCase(orderRepository, productCatalog);
 
     @Test

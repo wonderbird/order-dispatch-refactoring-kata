@@ -10,24 +10,20 @@ public class Product {
     private BigDecimal price;
     private Category category;
 
+    public static Product create(final String salad, final BigDecimal price, final Category food) {
+        Product product = new Product();
+        product.name = salad;
+        product.price = price;
+        product.category = food;
+        return product;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public BigDecimal getPrice() {
         return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public BigDecimal tax() {
