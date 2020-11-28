@@ -10,8 +10,6 @@ import it.gabrieletondi.telldontaskkata.useCase.OrderNotShippable;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.CREATED;
-import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.REJECTED;
 import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.SHIPPED;
 
 public class Order {
@@ -52,10 +50,6 @@ public class Order {
 
     public void setTax(BigDecimal tax) {
         this.tax = tax;
-    }
-
-    public OrderStatus getStatus() {
-        return status;
     }
 
     public void setStatus(OrderStatus status) {
@@ -110,5 +104,9 @@ public class Order {
 
     public boolean isCreated() {
         return status.equals(OrderStatus.CREATED);
+    }
+
+    public boolean isShipped() {
+        return status.equals(SHIPPED);
     }
 }
