@@ -26,12 +26,12 @@ public class Product {
         return new Money(price).value();
     }
 
-    public BigDecimal tax() {
-        return new Money(price).multiply(category.taxRate()).value();
+    public Money tax() {
+        return new Money(price).multiply(category.taxRate());
     }
 
     public BigDecimal taxedPrice() {
-        return new Money(price).value().add(tax()).setScale(2, HALF_UP);
+        return new Money(price).add(tax()).value();
     }
 
     public BigDecimal taxedPriceTimes(int quantity) {
@@ -39,7 +39,7 @@ public class Product {
     }
 
     public BigDecimal taxTimes(int quantity) {
-        return new Money(tax()).multiply(quantity).value();
+        return tax().multiply(quantity).value();
     }
 
     public static class Money {
@@ -60,6 +60,10 @@ public class Product {
         public Money multiply(BigDecimal multiplicand) {
             return new Money(value.multiply(multiplicand)
                 .setScale(2, HALF_UP));
+        }
+
+        public Money add(Money amount) {
+            return new Money(value.add(amount.value).setScale(2, HALF_UP));
         }
     }
 }
