@@ -19,11 +19,11 @@ public class OrderItem {
         return quantity;
     }
 
-    public Product.Money taxedAmount() {
+    public Money taxedAmount() {
         return product.taxedPriceTimes(quantity);
     }
 
-    public Product.Money tax() {
+    public Money tax() {
         return product.taxTimes(quantity);
     }
 
