@@ -10,6 +10,7 @@ import it.gabrieletondi.telldontaskkata.useCase.OrderNotShippable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.CREATED;
 import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.SHIPPED;
 
 public class Order {
@@ -17,7 +18,7 @@ public class Order {
     private String currency;
     private List<OrderItem> items;
     private BigDecimal tax;
-    private OrderStatus status;
+    private OrderStatus status = CREATED;
     private int id;
 
     public static Order create(int id, OrderStatus approved) {
