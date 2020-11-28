@@ -27,7 +27,7 @@ public class Product {
     }
 
     public BigDecimal tax() {
-        return new Money(price).multiply(category.getTaxPercentage().divide(valueOf(100), 2, HALF_UP)).value();
+        return new Money(price).multiply(category.taxRate()).value();
     }
 
     public BigDecimal taxedPrice() {
