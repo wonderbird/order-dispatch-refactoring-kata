@@ -29,7 +29,7 @@ public class Order {
 
     public BigDecimal getTotal() {
         return items.stream()
-            .map(OrderItem::getTaxedAmount)
+            .map(orderItem -> orderItem.taxedAmount().value())
             .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
@@ -43,7 +43,7 @@ public class Order {
 
     public BigDecimal getTax() {
         return items.stream()
-            .map(OrderItem::getTax)
+            .map(orderItem -> orderItem.tax().value())
             .reduce(new BigDecimal(0), BigDecimal::add);
     }
 

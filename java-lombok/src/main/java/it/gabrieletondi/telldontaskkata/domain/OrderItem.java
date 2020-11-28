@@ -1,7 +1,5 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
-import java.math.BigDecimal;
-
 public class OrderItem {
     private Product product;
     private int quantity;
@@ -21,12 +19,12 @@ public class OrderItem {
         return quantity;
     }
 
-    public BigDecimal getTaxedAmount() {
-        return product.taxedPriceTimes(quantity).value();
+    public Product.Money taxedAmount() {
+        return product.taxedPriceTimes(quantity);
     }
 
-    public BigDecimal getTax() {
-        return product.taxTimes(quantity).value();
+    public Product.Money tax() {
+        return product.taxTimes(quantity);
     }
 
 }
