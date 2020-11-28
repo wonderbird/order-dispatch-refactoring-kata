@@ -35,11 +35,11 @@ public class Product {
     }
 
     public BigDecimal taxedPriceTimes(int quantity) {
-        return new Money(taxedPrice()).multiply(valueOf(quantity)).value();
+        return new Money(taxedPrice()).multiply(quantity).value();
     }
 
     public BigDecimal taxTimes(int quantity) {
-        return new Money(tax()).multiply(valueOf(quantity)).value();
+        return new Money(tax()).multiply(quantity).value();
     }
 
     public static class Money {
@@ -51,6 +51,10 @@ public class Product {
 
         public BigDecimal value() {
             return value;
+        }
+
+        public Money multiply(int quantity) {
+            return multiply(valueOf(quantity));
         }
 
         public Money multiply(BigDecimal multiplicand) {
