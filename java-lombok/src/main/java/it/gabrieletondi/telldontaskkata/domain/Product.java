@@ -34,4 +34,17 @@ public class Product {
     public BigDecimal taxedPrice() {
         return price.add(tax()).setScale(2, HALF_UP);
     }
+
+    public static BigDecimal multiply(BigDecimal value, int quantity) {
+        return value.multiply(valueOf(quantity))
+            .setScale(2, HALF_UP);
+    }
+
+    public BigDecimal taxedPriceTimes(int quantity) {
+        return multiply(taxedPrice(), quantity);
+    }
+
+    public BigDecimal taxTimes(int quantity) {
+        return multiply(tax(), quantity);
+    }
 }
