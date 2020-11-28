@@ -8,16 +8,17 @@ import it.gabrieletondi.telldontaskkata.useCase.OrderApprovalRequest;
 import it.gabrieletondi.telldontaskkata.useCase.OrderNotShippable;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.CREATED;
 import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.SHIPPED;
 
 public class Order {
-    private BigDecimal total;
-    private String currency;
-    private List<OrderItem> items;
-    private BigDecimal tax;
+    private BigDecimal total = new BigDecimal("0.00");
+    private String currency = "EUR";
+    private List<OrderItem> items = new ArrayList<>();
+    private BigDecimal tax = new BigDecimal("0.00");
     private OrderStatus status = CREATED;
     private int id;
 
