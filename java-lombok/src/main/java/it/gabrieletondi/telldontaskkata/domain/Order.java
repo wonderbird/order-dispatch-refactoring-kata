@@ -1,12 +1,18 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
+import it.gabrieletondi.telldontaskkata.service.ShipmentService;
 import it.gabrieletondi.telldontaskkata.useCase.CannotApproveRejectedOrder;
 import it.gabrieletondi.telldontaskkata.useCase.CannotRejectApprovedOrder;
 import it.gabrieletondi.telldontaskkata.useCase.OrderAlreadyShipped;
 import it.gabrieletondi.telldontaskkata.useCase.OrderApprovalRequest;
+import it.gabrieletondi.telldontaskkata.useCase.OrderNotShippable;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.CREATED;
+import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.REJECTED;
+import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.SHIPPED;
 
 public class Order {
     private BigDecimal total;
@@ -78,5 +84,19 @@ public class Order {
         }
 
         this.status = request.isApproved() ? OrderStatus.APPROVED : OrderStatus.REJECTED;
+    }
+
+    public void ship(ShipmentService shipmentService) {
+        if (status.equals(CREATED) || status.equals(REJECTED)) {
+            throw new OrderNotShippable();
+        }
+
+        if (status.equals(SHIPPED)) {
+            throw new OrderAlreadyShipped();
+        }
+
+        shipmentService.ship(this);
+
+        this.status = OrderStatus.SHIPPED;
     }
 }
