@@ -64,20 +64,24 @@ public class Order {
         return id;
     }
 
-    public void approveOrReject(OrderApprovalRequest request) {
-        if (status.equals(OrderStatus.SHIPPED)) {
-            throw new OrderAlreadyShipped();
-        }
+    public void approve() {
+        assertNotShipped();
 
-        if (request.isApproved() && isRejected()) {
+        if (isRejected()) {
             throw new CannotApproveRejectedOrder();
         }
 
-        if (!request.isApproved() && isApproved()) {
+        this.status = OrderStatus.APPROVED;
+    }
+
+    public void reject() {
+        assertNotShipped();
+
+        if (isApproved()) {
             throw new CannotRejectApprovedOrder();
         }
 
-        this.status = request.isApproved() ? OrderStatus.APPROVED : OrderStatus.REJECTED;
+        this.status = OrderStatus.REJECTED;
     }
 
     public void ship(ShipmentService shipmentService) {
@@ -108,5 +112,11 @@ public class Order {
 
     public boolean isShipped() {
         return status.equals(SHIPPED);
+    }
+
+    private void assertNotShipped() {
+        if (status.equals(OrderStatus.SHIPPED)) {
+            throw new OrderAlreadyShipped();
+        }
     }
 }
