@@ -13,7 +13,7 @@ public class Product {
     public static Product create(final String salad, final BigDecimal price, final Category food) {
         Product product = new Product();
         product.name = salad;
-        product.price = price;
+        product.price = new Money(price).value();
         product.category = food;
         return product;
     }
@@ -23,28 +23,39 @@ public class Product {
     }
 
     public BigDecimal getPrice() {
-        return price;
+        return new Money(price).value();
     }
 
     public BigDecimal tax() {
-        return price.multiply(category.getTaxPercentage().divide(valueOf(100), 2, HALF_UP))
-            .setScale(2, HALF_UP);
+        return new Money(price).multiply(category.getTaxPercentage().divide(valueOf(100), 2, HALF_UP));
     }
 
     public BigDecimal taxedPrice() {
-        return price.add(tax()).setScale(2, HALF_UP);
-    }
-
-    public static BigDecimal multiply(BigDecimal value, int quantity) {
-        return value.multiply(valueOf(quantity))
-            .setScale(2, HALF_UP);
+        return new Money(price).value().add(tax()).setScale(2, HALF_UP);
     }
 
     public BigDecimal taxedPriceTimes(int quantity) {
-        return multiply(taxedPrice(), quantity);
+        return new Money(taxedPrice()).multiply(valueOf(quantity));
     }
 
     public BigDecimal taxTimes(int quantity) {
-        return multiply(tax(), quantity);
+        return new Money(tax()).multiply(valueOf(quantity));
+    }
+
+    public static class Money {
+        private BigDecimal value;
+
+        public Money(BigDecimal value) {
+            this.value = value;
+        }
+
+        public BigDecimal value() {
+            return value;
+        }
+
+        public BigDecimal multiply(BigDecimal multiplicand) {
+            return value().multiply(multiplicand)
+                .setScale(2, HALF_UP);
+        }
     }
 }
