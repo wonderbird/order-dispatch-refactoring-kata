@@ -34,4 +34,8 @@ public class Product {
         return price.multiply(category.getTaxPercentage().divide(valueOf(100), 2, HALF_UP))
             .setScale(2, HALF_UP);
     }
+
+    public BigDecimal taxedPrice() {
+        return price.add(tax()).setScale(2, HALF_UP);
+    }
 }

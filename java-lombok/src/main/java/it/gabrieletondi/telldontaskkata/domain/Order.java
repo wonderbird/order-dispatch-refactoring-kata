@@ -115,10 +115,9 @@ public class Order {
     }
 
     public void addProduct(Product product, int quantity) {
-        final BigDecimal unitaryTax = product.tax();
-        final BigDecimal unitaryTaxedAmount = product.getPrice().add(unitaryTax).setScale(2, HALF_UP);
+        final BigDecimal unitaryTaxedAmount = product.taxedPrice();
         final BigDecimal taxedAmount = unitaryTaxedAmount.multiply(BigDecimal.valueOf(quantity)).setScale(2, HALF_UP);
-        final BigDecimal taxAmount = unitaryTax.multiply(BigDecimal.valueOf(quantity));
+        final BigDecimal taxAmount = product.tax().multiply(BigDecimal.valueOf(quantity));
 
         final OrderItem orderItem = new OrderItem();
         orderItem.setProduct(product);
