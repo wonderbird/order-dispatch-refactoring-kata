@@ -7,13 +7,13 @@ import static java.math.RoundingMode.HALF_UP;
 
 public class Product {
     private String name;
-    private BigDecimal price;
+    private Money price;
     private Category category;
 
     public static Product create(final String salad, final BigDecimal price, final Category food) {
         Product product = new Product();
         product.name = salad;
-        product.price = new Money(price).value();
+        product.price = new Money(price);
         product.category = food;
         return product;
     }
@@ -23,19 +23,19 @@ public class Product {
     }
 
     public BigDecimal getPrice() {
-        return new Money(price).value();
+        return price.value();
     }
 
     public Money tax() {
-        return new Money(price).multiply(category.taxRate());
+        return price.multiply(category.taxRate());
     }
 
-    public BigDecimal taxedPrice() {
-        return new Money(price).add(tax()).value();
+    public Money taxedPrice() {
+        return price.add(tax());
     }
 
     public BigDecimal taxedPriceTimes(int quantity) {
-        return new Money(taxedPrice()).multiply(quantity).value();
+        return taxedPrice().multiply(quantity).value();
     }
 
     public BigDecimal taxTimes(int quantity) {
@@ -43,7 +43,7 @@ public class Product {
     }
 
     public static class Money {
-        private BigDecimal value;
+        private final BigDecimal value;
 
         public Money(BigDecimal value) {
             this.value = value;
