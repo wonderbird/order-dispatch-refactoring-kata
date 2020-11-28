@@ -25,12 +25,8 @@ public class Product {
         return price.multiply(category.taxRate());
     }
 
-    public Money taxedPrice() {
-        return price.add(tax());
-    }
-
     public Money taxedPriceTimes(int quantity) {
-        return taxedPrice().multiply(quantity);
+        return price.add(tax()).multiply(quantity);
     }
 
     public Money taxTimes(int quantity) {
