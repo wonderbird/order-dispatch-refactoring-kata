@@ -27,7 +27,7 @@ public class Product {
     }
 
     public BigDecimal tax() {
-        return new Money(price).multiply(category.getTaxPercentage().divide(valueOf(100), 2, HALF_UP));
+        return new Money(price).multiply(category.getTaxPercentage().divide(valueOf(100), 2, HALF_UP)).value();
     }
 
     public BigDecimal taxedPrice() {
@@ -35,11 +35,11 @@ public class Product {
     }
 
     public BigDecimal taxedPriceTimes(int quantity) {
-        return new Money(taxedPrice()).multiply(valueOf(quantity));
+        return new Money(taxedPrice()).multiply(valueOf(quantity)).value();
     }
 
     public BigDecimal taxTimes(int quantity) {
-        return new Money(tax()).multiply(valueOf(quantity));
+        return new Money(tax()).multiply(valueOf(quantity)).value();
     }
 
     public static class Money {
@@ -53,9 +53,9 @@ public class Product {
             return value;
         }
 
-        public BigDecimal multiply(BigDecimal multiplicand) {
-            return value().multiply(multiplicand)
-                .setScale(2, HALF_UP);
+        public Money multiply(BigDecimal multiplicand) {
+            return new Money(value.multiply(multiplicand)
+                .setScale(2, HALF_UP));
         }
     }
 }
