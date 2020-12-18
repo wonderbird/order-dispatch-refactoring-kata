@@ -10,7 +10,7 @@ export default class TestOrderRepository implements OrderRepository {
     }
 
     getById(id: number): Order {
-        return this._orders.find(o => o.id == id);
+        return this._orders?.find(o => o.id == id);
     }
 
     save(order: Order): void {
