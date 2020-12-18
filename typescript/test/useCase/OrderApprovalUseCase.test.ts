@@ -6,10 +6,9 @@ import OrderApprovalUseCase from "../../src/useCase/OrderApprovalUseCase";
 import RejectedOrderCannotBeApprovedException from "../../src/useCase/RejectedOrderCannotBeApprovedException";
 import ApprovedOrderCannotBeRejectedException from "../../src/useCase/ApprovedOrderCannotBeRejectedException";
 import ShippedOrdersCannotBeChangedException from "../../src/useCase/ShippedOrdersCannotBeChangedException";
-import OrderRepository from "../../src/repository/OrderRepository";
 
 describe('OrderApprovalUseCase should', () => {
-    let orderRepository: OrderRepository;
+    let orderRepository: TestOrderRepository;
     let useCase: OrderApprovalUseCase;
     beforeEach(() => {
         orderRepository = new TestOrderRepository();
