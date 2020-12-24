@@ -2,42 +2,42 @@ import Product from "./Product";
 import bigDecimal from "js-big-decimal";
 
 export default class OrderItem {
-    private _product: Product;
-    private _quantity: number;
-    private _taxedAmount: bigDecimal;
-    private _tax: bigDecimal;
+    private _product: Product | undefined;
+    private _quantity: number | undefined;
+    private _taxedAmount: bigDecimal | undefined;
+    private _tax: bigDecimal | undefined;
 
     constructor() {}
 
-    get product(): Product {
+    get product() {
         return this._product;
     }
 
-    set product(value: Product) {
+    set product(value) {
         this._product = value;
     }
 
-    get quantity(): number {
+    get quantity() {
         return this._quantity;
     }
 
-    set quantity(value: number) {
+    set quantity(value) {
         this._quantity = value;
     }
 
-    get taxedAmount(): bigDecimal {
+    get taxedAmount() {
         return this._taxedAmount;
     }
 
-    set taxedAmount(value: bigDecimal) {
+    set taxedAmount(value) {
         this._taxedAmount = value;
     }
 
-    get tax(): bigDecimal {
+    get tax() {
         return this._tax;
     }
 
-    set tax(value: bigDecimal) {
+    set tax(value) {
         this._tax = value;
     }
 }

@@ -3,62 +3,62 @@ import OrderStatus from "./OrderStatus";
 import bigDecimal from "js-big-decimal";
 
 export default class Order {
-    private _total: bigDecimal;
-    private _currency: string;
-    private _items: OrderItem[];
-    private _tax: bigDecimal;
-    private _status: OrderStatus;
-    private _id: number;
+    private _total: bigDecimal | undefined;
+    private _currency: string | undefined;
+    private _items: OrderItem[] | undefined;
+    private _tax: bigDecimal | undefined;
+    private _status: OrderStatus | undefined;
+    private _id: number | undefined;
 
     constructor() {
     }
 
 
-    get total(): bigDecimal {
+    get total() {
         return this._total;
     }
 
-    set total(value: bigDecimal) {
+    set total(value) {
         this._total = value;
     }
 
-    get currency(): string {
+    get currency() {
         return this._currency;
     }
 
-    set currency(value: string) {
+    set currency(value) {
         this._currency = value;
     }
 
-    get items(): OrderItem[] {
+    get items() {
         return this._items;
     }
 
-    set items(value: OrderItem[]) {
+    set items(value) {
         this._items = value;
     }
 
-    get tax(): bigDecimal {
+    get tax() {
         return this._tax;
     }
 
-    set tax(value: bigDecimal) {
+    set tax(value) {
         this._tax = value;
     }
 
-    get status(): OrderStatus {
+    get status() {
         return this._status;
     }
 
-    set status(value: OrderStatus) {
+    set status(value) {
         this._status = value;
     }
 
-    get id(): number {
+    get id() {
         return this._id;
     }
 
-    set id(value: number) {
+    set id(value) {
         this._id = value;
     }
 }
