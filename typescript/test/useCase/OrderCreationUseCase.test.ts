@@ -13,6 +13,7 @@ describe('OrderCreationUseCase should', () => {
     let orderRepository: TestOrderRepository;
     let productCatalog: InMemoryProductCatalog;
     let useCase: OrderCreationUseCase;
+
     beforeEach(() => {
         orderRepository = new TestOrderRepository();
 

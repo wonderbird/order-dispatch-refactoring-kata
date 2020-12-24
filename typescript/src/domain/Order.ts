@@ -7,12 +7,13 @@ export default class Order {
     private _currency: string | undefined;
     private _items: OrderItem[] | undefined;
     private _tax: bigDecimal | undefined;
-    private _status: OrderStatus | undefined;
+    private _status: OrderStatus;
     private _id: number | undefined;
 
-    constructor() {
+    constructor(id = undefined, status = OrderStatus.CREATED) {
+        this._id = id;
+        this._status = status
     }
-
 
     get total() {
         return this._total;

@@ -4,26 +4,27 @@ import OrderApprovalRequest from "../../src/useCase/OrderApprovalRequest";
 import TestOrderRepository from "../doubles/TestOrderRepository";
 import OrderApprovalUseCase from "../../src/useCase/OrderApprovalUseCase";
 import RejectedOrderCannotBeApprovedException from "../../src/useCase/RejectedOrderCannotBeApprovedException";
-import ApprovedOrderCannotBeRejectedException from "../../src/useCase/ApprovedOrderCannotBeRejectedException";
+import ApprovedOrderCannotBeRejectedError from "../../src/useCase/ApprovedOrderCannotBeRejectedError";
 import ShippedOrdersCannotBeChangedException from "../../src/useCase/ShippedOrdersCannotBeChangedException";
+
+function createOrder(id: number, status: OrderStatus) {
+    return new Order(id, status);
+}
 
 describe('OrderApprovalUseCase should', () => {
     let orderRepository: TestOrderRepository;
     let useCase: OrderApprovalUseCase;
+
     beforeEach(() => {
         orderRepository = new TestOrderRepository();
         useCase = new OrderApprovalUseCase(orderRepository);
     });
 
     test('approve existing order', () => {
-        let initialOrder = new Order();
-        initialOrder.status = OrderStatus.CREATED;
-        initialOrder.id = 1;
+        let initialOrder = createOrder(1, OrderStatus.CREATED);
         orderRepository.addOrder(initialOrder);
 
-        let request = new OrderApprovalRequest();
-        request.orderId = 1;
-        request.approved = true;
+        let request = new OrderApprovalRequest(1, true);
 
         useCase.run(request);
 
@@ -32,14 +33,10 @@ describe('OrderApprovalUseCase should', () => {
     });
 
     test('reject existing order', () => {
-        let initialOrder = new Order();
-        initialOrder.status = OrderStatus.CREATED;
-        initialOrder.id = 1;
+        let initialOrder = createOrder(1, OrderStatus.CREATED);
         orderRepository.addOrder(initialOrder);
 
-        let request = new OrderApprovalRequest();
-        request.orderId = 1;
-        request.approved = false;
+        let request = new OrderApprovalRequest(1, false);
 
         useCase.run(request);
 
@@ -48,56 +45,40 @@ describe('OrderApprovalUseCase should', () => {
     });
 
     test('not approve rejected order', () => {
-        let initialOrder = new Order();
-        initialOrder.status = OrderStatus.REJECTED;
-        initialOrder.id = 1;
+        let initialOrder = createOrder(1, OrderStatus.REJECTED);
         orderRepository.addOrder(initialOrder);
 
-        let request = new OrderApprovalRequest();
-        request.orderId = 1;
-        request.approved = true;
+        let request = new OrderApprovalRequest(1, true);
 
         expect(() => {useCase.run(request)}).toThrowError(RejectedOrderCannotBeApprovedException);
         expect(orderRepository.getSavedOrder()).toBeUndefined();
     });
 
     test('not reject approved order', () => {
-        let initialOrder = new Order();
-        initialOrder.status = OrderStatus.APPROVED;
-        initialOrder.id = 1;
+        let initialOrder = createOrder(1, OrderStatus.APPROVED);
         orderRepository.addOrder(initialOrder);
 
-        let request = new OrderApprovalRequest();
-        request.orderId = 1;
-        request.approved = false;
+        let request = new OrderApprovalRequest(1, false);
 
-        expect(() => {useCase.run(request)}).toThrowError(ApprovedOrderCannotBeRejectedException);
+        expect(() => {useCase.run(request)}).toThrowError(ApprovedOrderCannotBeRejectedError);
         expect(orderRepository.getSavedOrder()).toBeUndefined();
     });
 
     test('not approve shipped orders', () => {
-        let initialOrder = new Order();
-        initialOrder.status = OrderStatus.SHIPPED;
-        initialOrder.id = 1;
+        let initialOrder = createOrder(1, OrderStatus.SHIPPED);
         orderRepository.addOrder(initialOrder);
 
-        let request = new OrderApprovalRequest();
-        request.orderId = 1;
-        request.approved = true;
+        let request = new OrderApprovalRequest(1, true);
 
         expect(() => {useCase.run(request)}).toThrowError(ShippedOrdersCannotBeChangedException);
         expect(orderRepository.getSavedOrder()).toBeUndefined();
     });
 
     test('not reject shipped orders', () => {
-        let initialOrder = new Order();
-        initialOrder.status = OrderStatus.SHIPPED;
-        initialOrder.id = 1;
+        let initialOrder = createOrder(1, OrderStatus.SHIPPED);
         orderRepository.addOrder(initialOrder);
 
-        let request = new OrderApprovalRequest();
-        request.orderId = 1;
-        request.approved = false;
+        let request = new OrderApprovalRequest(1, false);
 
         expect(() => {useCase.run(request)}).toThrowError(ShippedOrdersCannotBeChangedException);
         expect(orderRepository.getSavedOrder()).toBeUndefined();

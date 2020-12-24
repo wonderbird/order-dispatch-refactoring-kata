@@ -1,6 +1,6 @@
 import OrderRepository from "../repository/OrderRepository";
 import OrderApprovalRequest from "./OrderApprovalRequest";
-import ApprovedOrderCannotBeRejectedException from "./ApprovedOrderCannotBeRejectedException";
+import ApprovedOrderCannotBeRejectedError from "./ApprovedOrderCannotBeRejectedError";
 import ShippedOrdersCannotBeChangedException from "./ShippedOrdersCannotBeChangedException";
 import RejectedOrderCannotBeApprovedException from "./RejectedOrderCannotBeApprovedException";
 import OrderStatus from "../domain/OrderStatus";
@@ -23,7 +23,7 @@ export default class OrderApprovalUseCase {
         }
 
         if (!request.approved && order.status === OrderStatus.APPROVED) {
-            throw new ApprovedOrderCannotBeRejectedException();
+            throw new ApprovedOrderCannotBeRejectedError();
         }
 
         order.status = request.approved ? OrderStatus.APPROVED : OrderStatus.REJECTED;

@@ -1,21 +1,18 @@
 export default class OrderApprovalRequest {
-    private _orderId: number;
-    private _approved: boolean;
+    constructor(orderId: number, approved: boolean) {
+        this._orderId = orderId;
+        this._approved = approved;
+    }
+
+    private readonly _orderId: number;
+    private readonly _approved: boolean;
 
 
     get orderId(): number {
         return this._orderId;
     }
 
-    set orderId(value: number) {
-        this._orderId = value;
-    }
-
     get approved(): boolean {
         return this._approved;
-    }
-
-    set approved(value: boolean) {
-        this._approved = value;
     }
 }

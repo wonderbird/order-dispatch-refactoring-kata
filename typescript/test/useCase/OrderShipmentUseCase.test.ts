@@ -21,9 +21,7 @@ describe('OrderShipmentUseCase should', () => {
     });
 
     test('ship approved order', () => {
-        let initialOrder = new Order();
-        initialOrder.id = 1;
-        initialOrder.status = OrderStatus.APPROVED;
+        let initialOrder = new Order(1, OrderStatus.APPROVED);
         orderRepository.addOrder(initialOrder);
 
         let request = new OrderShipmentRequest();
@@ -36,9 +34,7 @@ describe('OrderShipmentUseCase should', () => {
     });
 
     test('not ship created orders', () => {
-        let initialOrder = new Order();
-        initialOrder.id = 1;
-        initialOrder.status = OrderStatus.CREATED;
+        let initialOrder = new Order(1, OrderStatus.CREATED);
         orderRepository.addOrder(initialOrder);
 
         let request = new OrderShipmentRequest();
@@ -52,9 +48,7 @@ describe('OrderShipmentUseCase should', () => {
     });
 
     test('not ship rejected orders', () => {
-        let initialOrder = new Order();
-        initialOrder.id = 1;
-        initialOrder.status = OrderStatus.REJECTED;
+        let initialOrder = new Order(1, OrderStatus.REJECTED);
         orderRepository.addOrder(initialOrder);
 
         let request = new OrderShipmentRequest();
@@ -68,9 +62,7 @@ describe('OrderShipmentUseCase should', () => {
     });
 
     test('not ship shipped orders', () => {
-        let initialOrder = new Order();
-        initialOrder.id = 1;
-        initialOrder.status = OrderStatus.SHIPPED;
+        let initialOrder = new Order(1, OrderStatus.SHIPPED);
         orderRepository.addOrder(initialOrder);
 
         let request = new OrderShipmentRequest();
