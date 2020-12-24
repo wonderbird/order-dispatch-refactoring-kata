@@ -30,14 +30,12 @@ export default class OrderCreationUseCase {
             if (product === undefined) {
                 throw new UnknownProductException()
             } else {
-                const unitaryTax = product.price.divide(new bigDecimal(100)).multiply(product.category.taxPercentage).round(2);
+                const unitaryTax = product.price.divide(new bigDecimal(100), 4).multiply(product.category.taxPercentage).round(2);
                 const unitaryTaxedAmount = product.price.add(unitaryTax).round(2);
                 const taxedAmount = unitaryTaxedAmount.multiply(new bigDecimal(itemRequest.quantity)).round(2);
                 const taxAmount = unitaryTax.multiply(new bigDecimal(itemRequest.quantity));
 
-                let orderItem = new OrderItem();
-                orderItem.product = product;
-                orderItem.quantity = itemRequest.quantity;
+                let orderItem = new OrderItem(product, itemRequest.quantity);
                 orderItem.tax = taxAmount;
                 orderItem.taxedAmount = taxedAmount;
                 order.items.push(orderItem);

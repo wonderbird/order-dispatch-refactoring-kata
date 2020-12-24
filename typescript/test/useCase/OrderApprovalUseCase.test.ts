@@ -8,7 +8,7 @@ import ApprovedOrderCannotBeRejectedError from "../../src/useCase/ApprovedOrderC
 import ShippedOrdersCannotBeChangedException from "../../src/useCase/ShippedOrdersCannotBeChangedException";
 
 function createOrder(id: number, status: OrderStatus) {
-    return new Order(id, status);
+    return new Order(status, id);
 }
 
 describe('OrderApprovalUseCase should', () => {

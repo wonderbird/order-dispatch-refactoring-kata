@@ -21,14 +21,8 @@ describe('OrderCreationUseCase should', () => {
         food.name = "food";
         food.taxPercentage = new bigDecimal("10");
 
-        let product1 = new Product();
-        product1.name = "salad";
-        product1.price = new bigDecimal("3.56");
-        product1.category = food;
-        let product2 = new Product();
-        product2.name = "tomato";
-        product2.price = new bigDecimal("4.65");
-        product2.category = food;
+        let product1 = new Product("salad", new bigDecimal("3.56"), food);
+        let product2 = new Product("salad", new bigDecimal("3.56"), food);
 
         productCatalog = new InMemoryProductCatalog([product1, product2]);
         useCase = new OrderCreationUseCase(orderRepository, productCatalog);

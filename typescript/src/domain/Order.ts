@@ -5,12 +5,12 @@ import bigDecimal from "js-big-decimal";
 export default class Order {
     private _total: bigDecimal | undefined;
     private _currency: string | undefined;
-    private _items: OrderItem[] | undefined;
+    private _items: OrderItem[] = [];
     private _tax: bigDecimal | undefined;
     private _status: OrderStatus;
     private _id: number | undefined;
 
-    constructor(id = undefined, status = OrderStatus.CREATED) {
+    constructor(status = OrderStatus.CREATED, id? : number) {
         this._id = id;
         this._status = status
     }

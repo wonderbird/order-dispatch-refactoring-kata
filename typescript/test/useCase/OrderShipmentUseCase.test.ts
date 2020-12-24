@@ -10,9 +10,9 @@ import OrderRepository from "../../src/repository/OrderRepository";
 import TestShipmentService from "../doubles/TestShipmentService";
 
 describe('OrderShipmentUseCase should', () => {
-    const orderRepository: OrderRepository;
-    const shipmentService: ShipmentService;
-    const useCase: OrderShipmentUseCase;
+    let orderRepository: TestOrderRepository;
+    let shipmentService: TestShipmentService;
+    let useCase: OrderShipmentUseCase;
 
     beforeEach(() => {
         orderRepository = new TestOrderRepository();
@@ -21,7 +21,7 @@ describe('OrderShipmentUseCase should', () => {
     });
 
     test('ship approved order', () => {
-        let initialOrder = new Order(1, OrderStatus.APPROVED);
+        let initialOrder = new Order(OrderStatus.APPROVED, 1);
         orderRepository.addOrder(initialOrder);
 
         let request = new OrderShipmentRequest();
@@ -34,7 +34,7 @@ describe('OrderShipmentUseCase should', () => {
     });
 
     test('not ship created orders', () => {
-        let initialOrder = new Order(1, OrderStatus.CREATED);
+        let initialOrder = new Order(OrderStatus.CREATED, 1);
         orderRepository.addOrder(initialOrder);
 
         let request = new OrderShipmentRequest();
@@ -48,7 +48,7 @@ describe('OrderShipmentUseCase should', () => {
     });
 
     test('not ship rejected orders', () => {
-        let initialOrder = new Order(1, OrderStatus.REJECTED);
+        let initialOrder = new Order(OrderStatus.REJECTED, 1);
         orderRepository.addOrder(initialOrder);
 
         let request = new OrderShipmentRequest();
@@ -62,7 +62,7 @@ describe('OrderShipmentUseCase should', () => {
     });
 
     test('not ship shipped orders', () => {
-        let initialOrder = new Order(1, OrderStatus.SHIPPED);
+        let initialOrder = new Order(OrderStatus.SHIPPED, 1);
         orderRepository.addOrder(initialOrder);
 
         let request = new OrderShipmentRequest();

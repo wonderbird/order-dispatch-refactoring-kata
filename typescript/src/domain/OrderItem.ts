@@ -2,12 +2,15 @@ import Product from "./Product";
 import bigDecimal from "js-big-decimal";
 
 export default class OrderItem {
-    private _product: Product | undefined;
-    private _quantity: number | undefined;
+    private _product: Product;
+    private _quantity: number;
     private _taxedAmount: bigDecimal | undefined;
     private _tax: bigDecimal | undefined;
 
-    constructor() {}
+    constructor(product: Product, quantity: number) {
+        this._product = product;
+        this._quantity = quantity;
+    }
 
     get product() {
         return this._product;

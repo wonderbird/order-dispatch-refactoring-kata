@@ -3,11 +3,15 @@ import bigDecimal from "js-big-decimal";
 
 export default class Product {
     private _product: Product | undefined;
-    private _name: string | undefined;
-    private _price: bigDecimal | undefined;
-    private _category: Category | undefined;
+    private _name: string;
+    private _price: bigDecimal;
+    private _category: Category;
 
-    constructor() {}
+    constructor(name: string, price: bigDecimal, category: Category) {
+        this._name = name;
+        this._price = price;
+        this._category = category;
+    }
 
     get product() {
         return this._product;
