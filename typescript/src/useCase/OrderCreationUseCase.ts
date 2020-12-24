@@ -2,7 +2,7 @@ import OrderRepository from "../repository/OrderRepository";
 import ProductCatalog from "../repository/ProductCatalog";
 import SellItemsRequest from "./SellItemsRequest";
 import Order from "../domain/Order";
-import UnknownProductException from "./UnknownProductException";
+import UnknownProductError from "./UnknownProductError";
 import OrderItem from "../domain/OrderItem";
 import OrderStatus from "../domain/OrderStatus";
 import bigDecimal from "js-big-decimal";
@@ -28,7 +28,7 @@ export default class OrderCreationUseCase {
             let product = this._productCatalog.getByName(itemRequest.productName);
 
             if (product === undefined) {
-                throw new UnknownProductException()
+                throw new UnknownProductError()
             } else {
                 const unitaryTax = product.price.divide(new bigDecimal(100), 4).multiply(product.category.taxPercentage).round(2);
                 const unitaryTaxedAmount = product.price.add(unitaryTax).round(2);

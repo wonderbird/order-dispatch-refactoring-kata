@@ -1,8 +1,8 @@
 import OrderRepository from "../repository/OrderRepository";
 import OrderApprovalRequest from "./OrderApprovalRequest";
 import ApprovedOrderCannotBeRejectedError from "./ApprovedOrderCannotBeRejectedError";
-import ShippedOrdersCannotBeChangedException from "./ShippedOrdersCannotBeChangedException";
-import RejectedOrderCannotBeApprovedException from "./RejectedOrderCannotBeApprovedException";
+import ShippedOrdersCannotBeChangedError from "./ShippedOrdersCannotBeChangedError";
+import RejectedOrderCannotBeApprovedError from "./RejectedOrderCannotBeApprovedError";
 import OrderStatus from "../domain/OrderStatus";
 
 export default class OrderApprovalUseCase {
@@ -15,11 +15,11 @@ export default class OrderApprovalUseCase {
     public run(request: OrderApprovalRequest): void {
         const order = this._orderRepository.getById(request.orderId);
         if (order.status === OrderStatus.SHIPPED) {
-            throw new ShippedOrdersCannotBeChangedException();
+            throw new ShippedOrdersCannotBeChangedError();
         }
 
         if (request.approved && order.status === OrderStatus.REJECTED) {
-            throw new RejectedOrderCannotBeApprovedException();
+            throw new RejectedOrderCannotBeApprovedError();
         }
 
         if (!request.approved && order.status === OrderStatus.APPROVED) {

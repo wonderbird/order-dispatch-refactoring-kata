@@ -2,8 +2,8 @@ import Order from "../../src/domain/Order";
 import OrderShipmentRequest from "../../src/useCase/OrderShipmentRequest";
 import TestOrderRepository from "../doubles/TestOrderRepository";
 import OrderShipmentUseCase from "../../src/useCase/OrderShipmentUseCase";
-import OrderCannotBeShippedException from "../../src/useCase/OrderCannotBeShippedException";
-import OrderCannotBeShippedTwiceException from "../../src/useCase/OrderCannotBeShippedTwiceException";
+import OrderCannotBeShippedError from "../../src/useCase/OrderCannotBeShippedError";
+import OrderCannotBeShippedTwiceError from "../../src/useCase/OrderCannotBeShippedTwiceError";
 import OrderStatus from "../../src/domain/OrderStatus";
 import TestShipmentService from "../doubles/TestShipmentService";
 
@@ -33,7 +33,7 @@ describe('OrderShipmentUseCase should', () => {
 
         expect(() => {
             useCase.run(new OrderShipmentRequest(1))
-        }).toThrowError(OrderCannotBeShippedException);
+        }).toThrowError(OrderCannotBeShippedError);
         expect(orderRepository.getSavedOrder()).toBeUndefined();
         expect(shipmentService.getShippedOrder()).toBeUndefined();
     });
@@ -45,7 +45,7 @@ describe('OrderShipmentUseCase should', () => {
 
         expect(() => {
             useCase.run(request)
-        }).toThrowError(OrderCannotBeShippedException);
+        }).toThrowError(OrderCannotBeShippedError);
         expect(orderRepository.getSavedOrder()).toBeUndefined();
         expect(shipmentService.getShippedOrder()).toBeUndefined();
     });
@@ -55,7 +55,7 @@ describe('OrderShipmentUseCase should', () => {
 
         expect(() => {
             useCase.run(new OrderShipmentRequest(1))
-        }).toThrowError(OrderCannotBeShippedTwiceException);
+        }).toThrowError(OrderCannotBeShippedTwiceError);
         expect(orderRepository.getSavedOrder()).toBeUndefined();
         expect(shipmentService.getShippedOrder()).toBeUndefined();
     });

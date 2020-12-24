@@ -1,8 +1,8 @@
 import OrderRepository from "../repository/OrderRepository";
 import ShipmentService from "../service/ShipmentService";
 import OrderShipmentRequest from "./OrderShipmentRequest";
-import OrderCannotBeShippedException from "./OrderCannotBeShippedException";
-import OrderCannotBeShippedTwiceException from "./OrderCannotBeShippedTwiceException";
+import OrderCannotBeShippedError from "./OrderCannotBeShippedError";
+import OrderCannotBeShippedTwiceError from "./OrderCannotBeShippedTwiceError";
 import OrderStatus from "../domain/OrderStatus";
 
 export default class OrderShipmentUseCase {
@@ -18,11 +18,11 @@ export default class OrderShipmentUseCase {
         const order = this._orderRepository.getById(request.orderId);
 
         if (order.status === OrderStatus.CREATED || order.status === OrderStatus.REJECTED) {
-            throw new OrderCannotBeShippedException();
+            throw new OrderCannotBeShippedError();
         }
 
         if (order.status == OrderStatus.SHIPPED) {
-            throw new OrderCannotBeShippedTwiceException();
+            throw new OrderCannotBeShippedTwiceError();
         }
 
         this._shipmentService.ship(order);

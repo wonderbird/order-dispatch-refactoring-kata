@@ -5,7 +5,7 @@ import Product from "../../src/domain/Product";
 import OrderCreationUseCase from "../../src/useCase/OrderCreationUseCase";
 import SellItemRequest from "../../src/useCase/SellItemRequest";
 import SellItemsRequest from "../../src/useCase/SellItemsRequest";
-import UnknownProductException from "../../src/useCase/UnknownProductException";
+import UnknownProductError from "../../src/useCase/UnknownProductError";
 import OrderStatus from "../../src/domain/OrderStatus";
 import bigDecimal from "js-big-decimal";
 
@@ -59,6 +59,6 @@ describe('OrderCreationUseCase should', () => {
 
         expect(() => {
             useCase.run(request)
-        }).toThrowError(UnknownProductException);
+        }).toThrowError(UnknownProductError);
     });
 });

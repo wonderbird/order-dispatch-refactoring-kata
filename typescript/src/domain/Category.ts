@@ -1,7 +1,7 @@
 import bigDecimal from "js-big-decimal";
 
 export default class Category {
-    private _name: string;
+    private readonly _name: string;
     private readonly _taxPercentage: bigDecimal;
 
     constructor(name: string, taxPercentage: bigDecimal) {

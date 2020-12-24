@@ -3,9 +3,9 @@ import OrderStatus from "../../src/domain/OrderStatus"
 import OrderApprovalRequest from "../../src/useCase/OrderApprovalRequest";
 import TestOrderRepository from "../doubles/TestOrderRepository";
 import OrderApprovalUseCase from "../../src/useCase/OrderApprovalUseCase";
-import RejectedOrderCannotBeApprovedException from "../../src/useCase/RejectedOrderCannotBeApprovedException";
+import RejectedOrderCannotBeApprovedError from "../../src/useCase/RejectedOrderCannotBeApprovedError";
 import ApprovedOrderCannotBeRejectedError from "../../src/useCase/ApprovedOrderCannotBeRejectedError";
-import ShippedOrdersCannotBeChangedException from "../../src/useCase/ShippedOrdersCannotBeChangedException";
+import ShippedOrdersCannotBeChangedError from "../../src/useCase/ShippedOrdersCannotBeChangedError";
 
 describe('OrderApprovalUseCase should', () => {
     let orderRepository: TestOrderRepository;
@@ -37,7 +37,7 @@ describe('OrderApprovalUseCase should', () => {
     test('not approve rejected order', () => {
         orderRepository.addOrder(new Order(OrderStatus.REJECTED, 1));
 
-        expect(() => {useCase.run(new OrderApprovalRequest(1, true))}).toThrowError(RejectedOrderCannotBeApprovedException);
+        expect(() => {useCase.run(new OrderApprovalRequest(1, true))}).toThrowError(RejectedOrderCannotBeApprovedError);
         expect(orderRepository.getSavedOrder()).toBeUndefined();
     });
 
@@ -51,14 +51,14 @@ describe('OrderApprovalUseCase should', () => {
     test('not approve shipped orders', () => {
         orderRepository.addOrder(new Order(OrderStatus.SHIPPED, 1));
 
-        expect(() => {useCase.run(new OrderApprovalRequest(1, true))}).toThrowError(ShippedOrdersCannotBeChangedException);
+        expect(() => {useCase.run(new OrderApprovalRequest(1, true))}).toThrowError(ShippedOrdersCannotBeChangedError);
         expect(orderRepository.getSavedOrder()).toBeUndefined();
     });
 
     test('not reject shipped orders', () => {
         orderRepository.addOrder(new Order(OrderStatus.SHIPPED, 1));
 
-        expect(() => {useCase.run(new OrderApprovalRequest(1, false))}).toThrowError(ShippedOrdersCannotBeChangedException);
+        expect(() => {useCase.run(new OrderApprovalRequest(1, false))}).toThrowError(ShippedOrdersCannotBeChangedError);
         expect(orderRepository.getSavedOrder()).toBeUndefined();
     });
 
