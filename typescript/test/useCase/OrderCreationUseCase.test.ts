@@ -11,32 +11,27 @@ import bigDecimal from "js-big-decimal";
 
 describe('OrderCreationUseCase should', () => {
     let orderRepository: TestOrderRepository;
-    let productCatalog: InMemoryProductCatalog;
     let useCase: OrderCreationUseCase;
 
     beforeEach(() => {
         orderRepository = new TestOrderRepository();
 
         let food = new Category("food", new bigDecimal("10"));
-
-        let product1 = new Product("salad", new bigDecimal("3.56"), food);
-        let product2 = new Product("tomato", new bigDecimal("4.65"), food);
-
-        productCatalog = new InMemoryProductCatalog([product1, product2]);
-        useCase = new OrderCreationUseCase(orderRepository, productCatalog);
+        useCase = new OrderCreationUseCase(
+            orderRepository,
+            new InMemoryProductCatalog([
+                new Product("salad", new bigDecimal("3.56"), food),
+                new Product("tomato", new bigDecimal("4.65"), food)
+            ])
+        );
     });
 
     test('sell multiple items', () => {
-        let saladRequest = new SellItemRequest();
-        saladRequest.productName = "salad";
-        saladRequest.quantity = 2;
-
-        let tomatoRequest = new SellItemRequest();
-        tomatoRequest.productName = "tomato";
-        tomatoRequest.quantity = 3;
-
         let request = new SellItemsRequest();
-        request.requests = [saladRequest, tomatoRequest];
+        request.requests = [
+            new SellItemRequest("salad", 2),
+            new SellItemRequest("tomato", 3)
+        ];
 
         useCase.run(request);
 
@@ -60,11 +55,10 @@ describe('OrderCreationUseCase should', () => {
 
     test('unknown product', () => {
         let request = new SellItemsRequest();
-        request.requests = [];
-        let unknownProductRequest = new SellItemRequest();
-        unknownProductRequest.productName = "unknown product";
-        request.requests.push(unknownProductRequest);
+        request.requests.push(new SellItemRequest("unknown product", 2));
 
-        expect(() => {useCase.run(request)}).toThrowError(UnknownProductException);
+        expect(() => {
+            useCase.run(request)
+        }).toThrowError(UnknownProductException);
     });
 });

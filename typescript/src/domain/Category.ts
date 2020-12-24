@@ -1,8 +1,8 @@
 import bigDecimal from "js-big-decimal";
 
 export default class Category {
-    private _name: string | undefined;
-    private _taxPercentage: bigDecimal | undefined;
+    private _name: string;
+    private readonly _taxPercentage: bigDecimal;
 
     constructor(name: string, taxPercentage: bigDecimal) {
         this._name = name;
@@ -13,16 +13,7 @@ export default class Category {
         return this._name;
     }
 
-    set name(name) {
-        this._name = name;
-    }
-
-
     get taxPercentage() {
         return this._taxPercentage;
-    }
-
-    set taxPercentage(taxPercentage) {
-        this._taxPercentage = taxPercentage;
     }
 }
