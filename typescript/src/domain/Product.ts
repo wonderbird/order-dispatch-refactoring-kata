@@ -2,7 +2,6 @@ import Category from "./Category";
 import bigDecimal from "js-big-decimal";
 
 export default class Product {
-    private _product: Product | undefined;
     private _name: string;
     private _price: bigDecimal;
     private _category: Category;
@@ -11,14 +10,6 @@ export default class Product {
         this._name = name;
         this._price = price;
         this._category = category;
-    }
-
-    get product() {
-        return this._product;
-    }
-
-    set product(value) {
-        this._product = value;
     }
 
     get name() {

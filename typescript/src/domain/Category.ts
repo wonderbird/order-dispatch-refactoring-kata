@@ -4,7 +4,10 @@ export default class Category {
     private _name: string | undefined;
     private _taxPercentage: bigDecimal | undefined;
 
-    constructor() {}
+    constructor(name: string, taxPercentage: bigDecimal) {
+        this._name = name;
+        this._taxPercentage = taxPercentage;
+    }
 
     get name() {
         return this._name;

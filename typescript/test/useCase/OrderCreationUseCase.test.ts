@@ -17,12 +17,10 @@ describe('OrderCreationUseCase should', () => {
     beforeEach(() => {
         orderRepository = new TestOrderRepository();
 
-        let food = new Category();
-        food.name = "food";
-        food.taxPercentage = new bigDecimal("10");
+        let food = new Category("food", new bigDecimal("10"));
 
         let product1 = new Product("salad", new bigDecimal("3.56"), food);
-        let product2 = new Product("salad", new bigDecimal("3.56"), food);
+        let product2 = new Product("tomato", new bigDecimal("4.65"), food);
 
         productCatalog = new InMemoryProductCatalog([product1, product2]);
         useCase = new OrderCreationUseCase(orderRepository, productCatalog);
