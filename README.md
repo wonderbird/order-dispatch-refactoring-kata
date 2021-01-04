@@ -1,5 +1,5 @@
 # Order Dispatch Kata
-A legacy refactor kata, focused on the violation of the [tell don't ask](https://wiki.c2.com/?TellDontAsk) principle and the [anemic domain model](https://martinfowler.com/bliki/AnemicDomainModel.html).
+A legacy refactor kata, focused on the violation of the [Tell Don't Ask](https://wiki.c2.com/?TellDontAsk) principle and the [Anemic Domain Model](https://martinfowler.com/bliki/AnemicDomainModel.html).
 
 ## Instructions
 Here you find a simple order flow application. It's able to create orders, do some calculation (totals and taxes), and manage them (approval/reject and shipment).
