@@ -1,4 +1,4 @@
-# Order Dispatch Kata
+# Order Dispatch Refactoring Kata
 A legacy refactor kata, focused on the violation of the [Tell Don't Ask](https://wiki.c2.com/?TellDontAsk) principle and the [Anemic Domain Model](https://martinfowler.com/bliki/AnemicDomainModel.html).
 
 ## Instructions
