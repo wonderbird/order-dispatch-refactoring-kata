@@ -4,16 +4,25 @@ import it.gabrieletondi.telldontaskkata.domain.Order;
 import it.gabrieletondi.telldontaskkata.domain.OrderStatus;
 
 public class OrderTestDataBuilder {
-    public OrderTestDataBuilder withStatus(OrderStatus created) {
+
+    private Order order = new Order();
+
+    public OrderTestDataBuilder() {
+        order.setId(1);
+    }
+
+    public OrderTestDataBuilder withStatus(OrderStatus status) {
+        if (status == OrderStatus.CREATED)
+        {
+            // Do nothing
+        } else if (status == OrderStatus.REJECTED) {
+            order.reject();
+        }
         return this;
     }
 
     public Order build() {
-        Order result = new Order();
 
-        result.setStatus(OrderStatus.CREATED);
-        result.setId(1);
-
-        return result;
+        return order;
     }
 }
