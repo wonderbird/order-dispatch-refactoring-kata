@@ -2,6 +2,7 @@ package it.gabrieletondi.telldontaskkata;
 
 import it.gabrieletondi.telldontaskkata.domain.Order;
 import it.gabrieletondi.telldontaskkata.domain.OrderStatus;
+import it.gabrieletondi.telldontaskkata.doubles.TestShipmentService;
 
 public class OrderTestDataBuilder {
 
@@ -19,6 +20,9 @@ public class OrderTestDataBuilder {
             order.reject();
         } else if (status == OrderStatus.APPROVED) {
             order.approve();
+        } else if (status == OrderStatus.SHIPPED) {
+            order.approve();
+            order.ship(new TestShipmentService());
         }
         return this;
     }

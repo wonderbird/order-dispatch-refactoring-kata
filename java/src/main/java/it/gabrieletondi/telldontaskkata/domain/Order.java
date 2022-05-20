@@ -62,11 +62,6 @@ public class Order {
         return status;
     }
 
-    // Only use the setter in the use case tests
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
-
     public int getId() {
         return id;
     }
