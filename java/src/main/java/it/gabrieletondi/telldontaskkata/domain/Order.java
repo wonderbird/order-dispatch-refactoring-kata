@@ -4,6 +4,7 @@ import it.gabrieletondi.telldontaskkata.service.ShipmentService;
 import it.gabrieletondi.telldontaskkata.useCase.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import static it.gabrieletondi.telldontaskkata.domain.OrderStatus.*;
@@ -15,6 +16,14 @@ public class Order {
     private BigDecimal tax;
     private OrderStatus status;
     private int id;
+
+    public Order() {
+        status = OrderStatus.CREATED;
+        setItems(new ArrayList<>());
+        setCurrency("EUR");
+        setTotal(new BigDecimal("0.00"));
+        setTax(new BigDecimal("0.00"));
+    }
 
     public BigDecimal getTotal() {
         return total;
@@ -53,6 +62,7 @@ public class Order {
         return status;
     }
 
+    // Only use the setter in the use case tests
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
@@ -72,7 +82,7 @@ public class Order {
             throw new RejectedOrderCannotBeApprovedException();
         }
 
-        setStatus(OrderStatus.APPROVED);
+        status = OrderStatus.APPROVED;
     }
 
     public void reject() {
@@ -82,7 +92,7 @@ public class Order {
             throw new ApprovedOrderCannotBeRejectedException();
         }
 
-        setStatus(OrderStatus.REJECTED);
+        status = OrderStatus.REJECTED;
     }
 
     private void validateShipped() {
@@ -108,6 +118,6 @@ public class Order {
     }
 
     private void markShipped() {
-        setStatus(SHIPPED);
+        status = SHIPPED;
     }
 }
