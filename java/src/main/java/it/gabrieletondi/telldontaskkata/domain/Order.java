@@ -76,7 +76,7 @@ public class Order {
     }
 
     public void approve() {
-        validateShipped();
+        validateNotShipped();
 
         if (status.equals(OrderStatus.REJECTED)) {
             throw new RejectedOrderCannotBeApprovedException();
@@ -86,7 +86,7 @@ public class Order {
     }
 
     public void reject() {
-        validateShipped();
+        validateNotShipped();
 
         if (status.equals(OrderStatus.APPROVED)) {
             throw new ApprovedOrderCannotBeRejectedException();
@@ -95,7 +95,7 @@ public class Order {
         status = OrderStatus.REJECTED;
     }
 
-    private void validateShipped() {
+    private void validateNotShipped() {
         if (status.equals(OrderStatus.SHIPPED)) {
             throw new ShippedOrdersCannotBeChangedException();
         }
