@@ -17,6 +17,8 @@ public class OrderTestDataBuilder {
             // Do nothing
         } else if (status == OrderStatus.REJECTED) {
             order.reject();
+        } else if (status == OrderStatus.APPROVED) {
+            order.approve();
         }
         return this;
     }
