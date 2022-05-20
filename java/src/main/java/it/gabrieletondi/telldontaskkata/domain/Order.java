@@ -1,5 +1,6 @@
 package it.gabrieletondi.telldontaskkata.domain;
 
+import it.gabrieletondi.telldontaskkata.service.ShipmentService;
 import it.gabrieletondi.telldontaskkata.useCase.*;
 
 import java.math.BigDecimal;
@@ -47,6 +48,7 @@ public class Order {
         this.tax = tax;
     }
 
+    // Only use the getter in the use case tests
     public OrderStatus getStatus() {
         return status;
     }
@@ -66,7 +68,7 @@ public class Order {
     public void approve() {
         validateShipped();
 
-        if (getStatus().equals(OrderStatus.REJECTED)) {
+        if (status.equals(OrderStatus.REJECTED)) {
             throw new RejectedOrderCannotBeApprovedException();
         }
 
@@ -76,29 +78,36 @@ public class Order {
     public void reject() {
         validateShipped();
 
-        if (getStatus().equals(OrderStatus.APPROVED)) {
+        if (status.equals(OrderStatus.APPROVED)) {
             throw new ApprovedOrderCannotBeRejectedException();
         }
+
         setStatus(OrderStatus.REJECTED);
     }
 
     private void validateShipped() {
-        if (getStatus().equals(OrderStatus.SHIPPED)) {
+        if (status.equals(OrderStatus.SHIPPED)) {
             throw new ShippedOrdersCannotBeChangedException();
         }
     }
 
-    public void validateShippable() {
-        if (getStatus().equals(CREATED) || getStatus().equals(REJECTED)) {
+    public void ship(ShipmentService shipmentService) {
+        validateShippable();
+        shipmentService.ship(this);
+        markShipped();
+    }
+
+    private void validateShippable() {
+        if (status.equals(CREATED) || status.equals(REJECTED)) {
             throw new OrderCannotBeShippedException();
         }
 
-        if (getStatus().equals(SHIPPED)) {
+        if (status.equals(SHIPPED)) {
             throw new OrderCannotBeShippedTwiceException();
         }
     }
 
-    public void markShipped() {
+    private void markShipped() {
         setStatus(SHIPPED);
     }
 }
