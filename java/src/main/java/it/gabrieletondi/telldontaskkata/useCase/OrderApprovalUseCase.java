@@ -13,22 +13,13 @@ public class OrderApprovalUseCase {
 
     public void run(OrderApprovalRequest request) {
         final Order order = orderRepository.getById(request.getOrderId());
-        boolean isApproved = request.isApproved();
-        if (order.getStatus().equals(OrderStatus.SHIPPED)) {
-            throw new ShippedOrdersCannotBeChangedException();
-        }
-        if (isApproved) {
-            if (order.getStatus().equals(OrderStatus.REJECTED)) {
-                throw new RejectedOrderCannotBeApprovedException();
-            }
 
-            order.setStatus(OrderStatus.APPROVED);
+        if (request.isApproved()) {
+            order.approve();
         } else {
-            if (order.getStatus().equals(OrderStatus.APPROVED)) {
-                throw new ApprovedOrderCannotBeRejectedException();
-            }
-            order.setStatus(OrderStatus.REJECTED);
+            order.reject();
         }
         orderRepository.save(order);
     }
+
 }
